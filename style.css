@@ -55,7 +55,13 @@ blockquote { margin: 8px 0; padding: 8px 12px; border-left: 4px solid var(--blue
   border-radius: 0 8px 8px 0; color: var(--ink-2); }
 
 .stage { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
-@media (min-width: 900px) { .stage { grid-template-columns: minmax(0, 1.8fr) minmax(300px, 1fr); align-items: start; } }
+@media (min-width: 900px) {
+  .stage { grid-template-columns: minmax(0, 1.8fr) minmax(300px, 1fr); grid-template-areas: "scene side" "legend side";
+    align-items: start; row-gap: 0; }
+  .scene-wrap { grid-area: scene; }
+  .side { grid-area: side; }
+  .stage > .legend { grid-area: legend; }
+}
 
 .scene-wrap { min-width: 0; }
 .scene { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden;
@@ -83,7 +89,7 @@ blockquote { margin: 8px 0; padding: 8px 12px; border-left: 4px solid var(--blue
 .timeline .lbl.lab { color: var(--stop-dark); font-weight: 700; }
 .timeline .lbl.you { color: var(--you); font-weight: 700; }
 
-.legend { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 4px 14px;
+.legend { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 14px;
   font-size: 0.8rem; color: var(--ink-2); }
 .legend i { display: inline-block; width: 18px; height: 0; vertical-align: middle; margin-right: 6px; }
 .k-planned { border-top: 6px solid var(--blue-200); }
