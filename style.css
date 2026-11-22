@@ -78,7 +78,7 @@ blockquote { margin: 8px 0; padding: 8px 12px; border-left: 4px solid var(--blue
 
 .timeline { position: relative; height: 34px; margin-top: 8px; background: #fff; border: 1px solid var(--line);
   border-radius: 8px; cursor: pointer; overflow: hidden; }
-.timeline .seg { position: absolute; top: 8px; height: 12px; background: var(--blue-400); border-radius: 3px; }
+.timeline .seg { position: absolute; top: 11px; height: 10px; background: var(--blue-400); border-radius: 3px; }
 .timeline .seg.cut { background: var(--blue-200); }
 .timeline .tick { position: absolute; top: 0; bottom: 0; width: 3px; margin-left: -1px; }
 .timeline .tick.lab { background: var(--stop); }
@@ -87,7 +87,7 @@ blockquote { margin: 8px 0; padding: 8px 12px; border-left: 4px solid var(--blue
 .timeline .lbl { position: absolute; bottom: 1px; font-size: 0.66rem; color: var(--ink-2); white-space: nowrap;
   transform: translateX(-50%); pointer-events: none; }
 .timeline .lbl.lab { color: var(--stop-dark); font-weight: 700; }
-.timeline .lbl.you { color: var(--you); font-weight: 700; }
+.timeline .lbl.you { color: var(--you); font-weight: 700; bottom: auto; top: 0; }
 
 .legend { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 14px;
   font-size: 0.8rem; color: var(--ink-2); }
