@@ -221,6 +221,7 @@ function setRun(meta) {
     labMarker.visible = true;
   } else labMarker.visible = false;
   renderMeta();
+  document.querySelector(".card.lab h2").textContent = meta.local ? "What happened in your recorded run" : "What happened in the lab";
   renderLab();
   renderReport();
   verifyChain();
@@ -462,7 +463,7 @@ function renderLab() {
   const rec = run.labReceipt;
   const k = rec && rec.last_read ? Math.round((L.T + rec.last_read.after_stop_s) / st.simRec.step) : null;
   const rows = [
-    ["The lab pressed the owner's stop", `${f2(L.T)} s`], [null, where],
+    [st.meta.local ? "The owner's stop in your log" : "The lab pressed the owner's stop", `${f2(L.T)} s`], [null, where],
     ["Speed when the stop acted (model)", `${f3(L.m.speed)} m/s`],
     ["At rest after (model)", `${f2(L.m.restAfter)} s`],
     ["Stopping distance (model)", mm(L.m.distance)],
