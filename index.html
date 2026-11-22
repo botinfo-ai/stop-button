@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Press STOP on a recorded AI run | BotInfo</title>
+<meta name="description" content="A real AI drove BotInfo's simulated rover in a recorded lab run. Replay it in your browser, press STOP at any moment, and see how BotInfo's stop rules play out: stop time, stopping distance and every refused move, next to what happened in the lab.">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">{"imports": {"three": "./vendor/three.module.min.js"}}</script>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="https://botinfo.ai">BotInfo</a>
+  <a class="src" href="https://github.com/botinfo-ai/stop-button">Source</a>
+</header>
+
+<main>
+  <section class="intro">
+    <h1>Press STOP on a recorded AI run</h1>
+    <p class="lede">In BotInfo's lab, a real AI drove a simulated rover through BotInfo's tools, and the lab pressed the
+      owner's stop partway through. This page replays that recorded run. Press <strong>STOP</strong> whenever you like.
+      BotInfo's stop rules decide what happens next, and you see how long the rover took to stop and how far it went,
+      next to what happened in the lab.</p>
+    <p class="tags"><span>Simulation</span><span>One recorded run at a time</span><span>Nothing to install</span></p>
+  </section>
+
+  <section class="picker" aria-label="Choose a recorded run">
+    <label for="run">Recorded run</label>
+    <select id="run"></select>
+    <p id="runmeta" class="meta"></p>
+    <details class="task">
+      <summary>What the AI heard, word for word</summary>
+      <blockquote id="task"></blockquote>
+      <p class="small" id="stopsetting"></p>
+    </details>
+  </section>
+
+  <section class="stage">
+    <div class="scene-wrap">
+      <div id="scene" class="scene" aria-label="3D view of the simulated rover">
+        <div class="hud" id="hud" aria-hidden="true"></div>
+        <div class="banner" id="banner" hidden></div>
+      </div>
+      <div class="timeline" id="timeline" title="Click to jump to a moment (before you press STOP)"></div>
+      <ul class="legend">
+        <li><i class="k-planned"></i>Where the AI's allowed moves were headed (full 4 s leases)</li>
+        <li><i class="k-trail"></i>Path driven in this replay</li>
+        <li><i class="k-lab"></i>Where the lab's stop left it (BotInfo's last odometry read)</li>
+        <li><i class="k-you"></i>Where your stop left it</li>
+        <li><i class="k-box"></i>The owner's 4 m × 4 m workspace</li>
+      </ul>
+    </div>
+
+    <div class="side">
+      <div class="controls">
+        <button id="play" class="btn primary" type="button">▶ Play the recorded run</button>
+        <div class="speed" role="group" aria-label="Replay speed">
+          <button type="button" data-speed="1" aria-pressed="true">1×</button>
+          <button type="button" data-speed="2" aria-pressed="false">2×</button>
+          <button type="button" data-speed="4" aria-pressed="false">4×</button>
+        </div>
+        <button id="reset" class="btn" type="button">↺ Replay</button>
+      </div>
+      <button id="stop" class="stop" type="button" aria-describedby="stophint">STOP</button>
+      <p class="hint" id="stophint">The owner's stop. Press it any time, even before the first move. Space bar works too.</p>
+
+      <article class="card you" aria-live="polite">
+        <h2>Your stop</h2>
+        <div id="you"><p class="muted">Not pressed yet. Try a few moments: before the first move, in the middle of a
+          move, between the two moves, or right as a move starts.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="cards">
+    <article class="card lab">
+      <h2>What happened in the lab</h2>
+      <div id="lab"></div>
+    </article>
+    <article class="card feed-card">
+      <h2>What BotInfo saw and decided</h2>
+      <ol id="feed" class="feed" aria-live="off"></ol>
+    </article>
+  </section>
+
+  <section class="report">
+    <h2>The AI's own report, next to the log</h2>
+    <p class="small">The AI was told the owner would not be watching and would rely on its report. Here is what it wrote,
+      verbatim, and the figures BotInfo's audit log holds for the same moves.</p>
+    <div class="cols">
+      <div class="card"><h3>The AI's report</h3><div id="report" class="md"></div></div>
+      <div class="card"><h3>BotInfo's audit log</h3><div id="logfacts"></div></div>
+    </div>
+  </section>
+
+  <section class="how">
+    <h2>How this page works, and what it simplifies</h2>
+    <ul>
+      <li><strong>It is a simulation.</strong> No real robot moved. Each choice above is one run of one AI, recorded
+        once. It says what that AI did that time, not what it or any AI always does, and not how a real robot would
+        behave.</li>
+      <li><strong>Every figure comes from a recorded run.</strong> The AI's calls and BotInfo's decisions are the lab's
+        audit log, line by line (<a id="datalink" href="#">this run's data</a>). The run picker names the model, the
+        date and the BotInfo commit it ran on.</li>
+      <li><strong>The motion is SimRover's own.</strong> <code>sim.js</code> is a port of <code>SimRover.step()</code>
+        from <a id="simlink" href="#">BotInfo's simulator</a>: a point that moves and turns (a unicycle model) with
+        2 m/s² and 8 rad/s² limits on speeding up and slowing down, in 10 ms steps. The rover's body in the picture is
+        drawn for this page; the simulator has no body. Fed the recorded commands, the replay ends within
+        <span id="checkmm">a few mm</span> of where BotInfo read the rover's odometry in the lab.</li>
+      <li><strong>Your stop follows BotInfo's rules.</strong> The stop sets the rover's speed to zero, cancels the move
+        that is running, and latches: BotInfo refuses every later motion with "<span id="refusal"></span>" until the
+        owner resumes. The page applies that rule to the AI's recorded requests after your press.</li>
+      <li><strong>What the AI would have done next is not in the recording.</strong> After your press, the page keeps
+        showing the calls the AI made in the lab, marked as recorded. A real AI that got a refusal might have done
+        something else.</li>
+      <li><strong>Stop time is measured in the model.</strong> "At rest" means both speeds read under 0.01, the threshold
+        BotInfo's stop receipt uses. In the lab, BotInfo read the rover's odometry about every 0.1 s, so its receipt
+        reports a later moment than the model's. In the lab, BotInfo, its connector and the simulated rover ran in one
+        process, so a stop reached the rover within the same call; this page applies your press at the next 10 ms step.
+        A real robot adds network, motor controller and braking time that this page does not model.</li>
+      <li><strong>At these speeds the stop itself is short.</strong> At 0.2 m/s, SimRover's 2 m/s² slowdown always takes
+        about 0.10 s and 9 mm. What your timing changes is where the rover ends up and which of the AI's moves BotInfo
+        refuses. A press during a move's first 0.1 s, while it is still speeding up, stops it sooner.</li>
+    </ul>
+    <p class="small" id="chain"></p>
+  </section>
+
+  <section class="yours">
+    <h2>Replay your own run</h2>
+    <p>Run BotInfo with the simulated rover (<code>policies/simrover.toml</code> and
+      <code>bindings/simrover-ros-style.toml</code>; setup in the
+      <a href="https://github.com/botinfo-ai/botinfo#use-it-with-an-agent-mcp">BotInfo README</a>), connect your own AI
+      agent over MCP, and press the owner's stop with <code>python3 -m botinfo owner stop</code> while it drives. Then
+      open the audit log here. It stays in your browser; nothing is uploaded.</p>
+    <label class="file">
+      <span class="btn">Open an audit .jsonl</span>
+      <input type="file" id="file" accept=".jsonl,.json,.txt,application/json">
+    </label>
+    <p class="small" id="fileinfo"></p>
+    <p class="small">The motion model is SimRover's, so a log from another robot or binding replays its commands, not that
+      robot's physics. To add a run to this page, see the
+      <a href="https://github.com/botinfo-ai/stop-button#add-a-run">README</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Made by <a href="https://botinfo.ai">BotInfo</a>. We test whether an AI can run a robot while a person can still
+    stop, limit and watch it. Code: <a href="https://github.com/botinfo-ai/stop-button">botinfo-ai/stop-button</a>
+    (Apache-2.0), engine: <a href="https://github.com/botinfo-ai/botinfo">botinfo-ai/botinfo</a>. 3D:
+    <a href="https://threejs.org">three.js</a> r160 (MIT).</p>
+</footer>
+
+<noscript><p class="noscript">This replay needs JavaScript. The recorded runs are plain JSON in
+  <a href="https://github.com/botinfo-ai/stop-button/tree/main/data">data/</a>.</p></noscript>
+<script type="module" src="app.js"></script>
+</body>
+</html>

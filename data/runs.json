@@ -1,0 +1,85 @@
+{
+ "runs": [
+  {
+   "file": "data/20261121-0651-stop-timing-forced-wait-gpt6luna-run3.json",
+   "id": "20261121-0651-stop-timing-forced-wait-gpt6luna-run3",
+   "model": "gpt-6-luna",
+   "run": 3,
+   "date": "2026-11-21",
+   "label": "gpt-6-luna, run 3 of 3",
+   "lab_request": "20261121-0651-stop-timing-forced-wait-gpt6luna"
+  },
+  {
+   "file": "data/20261121-0651-stop-timing-forced-wait-gpt6luna-run2.json",
+   "id": "20261121-0651-stop-timing-forced-wait-gpt6luna-run2",
+   "model": "gpt-6-luna",
+   "run": 2,
+   "date": "2026-11-21",
+   "label": "gpt-6-luna, run 2 of 3",
+   "lab_request": "20261121-0651-stop-timing-forced-wait-gpt6luna"
+  },
+  {
+   "file": "data/20261121-0651-stop-timing-forced-wait-gpt6luna-run1.json",
+   "id": "20261121-0651-stop-timing-forced-wait-gpt6luna-run1",
+   "model": "gpt-6-luna",
+   "run": 1,
+   "date": "2026-11-21",
+   "label": "gpt-6-luna, run 1 of 3",
+   "lab_request": "20261121-0651-stop-timing-forced-wait-gpt6luna"
+  },
+  {
+   "file": "data/20261108-0800-stop-timing-forced-wait-haiku-run3.json",
+   "id": "20261108-0800-stop-timing-forced-wait-haiku-run3",
+   "model": "claude-haiku-5-5",
+   "run": 3,
+   "date": "2026-11-08",
+   "label": "claude-haiku-5-5, run 3 of 3",
+   "lab_request": "20261108-0800-stop-timing-forced-wait-haiku"
+  },
+  {
+   "file": "data/20261108-0800-stop-timing-forced-wait-haiku-run2.json",
+   "id": "20261108-0800-stop-timing-forced-wait-haiku-run2",
+   "model": "claude-haiku-5-5",
+   "run": 2,
+   "date": "2026-11-08",
+   "label": "claude-haiku-5-5, run 2 of 3",
+   "lab_request": "20261108-0800-stop-timing-forced-wait-haiku"
+  },
+  {
+   "file": "data/20261108-0800-stop-timing-forced-wait-haiku-run1.json",
+   "id": "20261108-0800-stop-timing-forced-wait-haiku-run1",
+   "model": "claude-haiku-5-5",
+   "run": 1,
+   "date": "2026-11-08",
+   "label": "claude-haiku-5-5, run 1 of 3",
+   "lab_request": "20261108-0800-stop-timing-forced-wait-haiku"
+  },
+  {
+   "file": "data/20261107-1930-stop-timing-forced-wait-before-run3.json",
+   "id": "20261107-1930-stop-timing-forced-wait-before-run3",
+   "model": "claude-sonnet-5-5",
+   "run": 3,
+   "date": "2026-11-07",
+   "label": "claude-sonnet-5-5, run 3 of 3",
+   "lab_request": "20261107-1930-stop-timing-forced-wait-before"
+  },
+  {
+   "file": "data/20261107-1930-stop-timing-forced-wait-before-run2.json",
+   "id": "20261107-1930-stop-timing-forced-wait-before-run2",
+   "model": "claude-sonnet-5-5",
+   "run": 2,
+   "date": "2026-11-07",
+   "label": "claude-sonnet-5-5, run 2 of 3",
+   "lab_request": "20261107-1930-stop-timing-forced-wait-before"
+  },
+  {
+   "file": "data/20261107-1930-stop-timing-forced-wait-before-run1.json",
+   "id": "20261107-1930-stop-timing-forced-wait-before-run1",
+   "model": "claude-sonnet-5-5",
+   "run": 1,
+   "date": "2026-11-07",
+   "label": "claude-sonnet-5-5, run 1 of 3",
+   "lab_request": "20261107-1930-stop-timing-forced-wait-before"
+  }
+ ]
+}

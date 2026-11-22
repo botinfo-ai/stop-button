@@ -1,0 +1,19 @@
+BotInfo stop-button
+Copyright 2026 BotInfo.ai
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party work this product uses or was informed by:
+
+  - three.js r160, by the three.js authors: https://github.com/mrdoob/three.js (MIT License). vendor/three.module.min.js
+    is the unmodified build file; its license is vendor/LICENSE-three.txt.
+
+  - BotInfo (same copyright holder, Apache License 2.0): https://github.com/botinfo-ai/botinfo. sim.js ports
+    SimRover.step() from botinfo/backends/simrover.py at commit 5b77213faa50a2cdc6a596465372c9f7d5840fec, and the
+    page quotes the refusal text of BotInfo's stop latch from botinfo/core.py at the same commit.
+
+  - data/ holds audit logs and reports from BotInfo's own lab runs. The reports were written by the AI models named in
+    each file (Anthropic's Claude models through Claude Code, OpenAI's GPT-6 Luna through the OpenAI Codex CLI).
+
+Claude, Anthropic, OpenAI, GPT and Codex are the names of their owners' products. Their use here identifies the
+models that were tested and implies no endorsement.
