@@ -326,7 +326,7 @@ function updateScene() {
 
 let last = performance.now();
 function frame(now) {
-  const dt = Math.min(0.1, (now - last) / 1000);
+  const dt = Math.min(0.25, (now - last) / 1000);   // a hidden tab pauses frames; never jump more than 0.25 s
   last = now;
   if (st.run) {
     if (st.playing) {
@@ -523,11 +523,16 @@ function renderYou() {
     const parts = [`Your stop came ${f2(L.T - T)} s before the lab's.`];
     parts.push(Math.abs(dx) < 0.0005 ? "The rover ended where the lab's stop left it." : `The rover ended ${f3(Math.abs(dx))} m ${dx > 0 ? "short of" : "past"} where the lab's stop left it.`);
     if (refused.length) {
-      const list = refused.map((e) => {
+      let inLab = 0;
+      const names = refused.map((e) => {
         const d = run.drives.find((x) => x.idx > e.idx && Math.abs(x.start - e.rt) < 0.5);
-        return `move ${d ? d.n : "?"} (asked at ${f2(e.rt)} s)`;
-      }).join(", ");
-      parts.push(`BotInfo refused ${list}, which it allowed in the lab.`);
+        if (d) inLab++;
+        return d ? `move ${d.n} (asked at ${f2(e.rt)} s)` : `a drive request at ${f2(e.rt)} s`;
+      });
+      const list = names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : names[0];
+      const lab = inLab === names.length ? (names.length > 1 ? "; the lab's run allowed both" : "; the lab's run allowed it")
+        : inLab ? `; the lab's run allowed ${inLab} of them` : "";
+      parts.push(`BotInfo refused ${list}${names.length > 2 && inLab === names.length ? "; the lab's run allowed all of them" : lab}.`);
     }
     delta = parts.join(" ");
   }
